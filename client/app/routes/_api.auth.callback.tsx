@@ -1,10 +1,12 @@
-import { redirect, type LoaderFunction } from "@remix-run/node";
+import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import { supabase } from "~/utils/db.server";
 import type { AuthCookie } from "~/utils/cookies";
 import { authStorage } from "~/utils/cookies";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderFunctionArgs) {
     console.log("Redirect successful");
+    const requestUrl = new URL(request.url);
+    console.log(requestUrl);
     return null;
     /*
     const {
@@ -32,7 +34,7 @@ export const loader: LoaderFunction = async ({ request }) => {
         },
     });
     */
-};
+}
 
 export default function OAuthCallback() {
     return <div>OAuthCallback</div>;
