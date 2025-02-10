@@ -1,14 +1,13 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Hero, FeatureCard } from "~/components/cards";
-import { CoinIcon, BuildingIcon, VerifiedIcon } from "~/components/icons";
+import { BrainAIIcon, NetworkIcon, AutomationIcon } from "~/components/icons";
 
 export const meta: MetaFunction = () => {
     return [
-        { title: "Electryon - BTC-Backed Stablecoin & Fractional Investment Platform" },
+        { title: "AlibAI - Your Personal AI Social Media Manager" },
         {
             name: "description",
-            content:
-                "Discover Electryon's BTC-backed stablecoin and invest in fractional shares of promising businesses.",
+            content: "Discover AlibAI's AI Agent managed social media presence and engagement.",
         },
     ];
 };
@@ -22,19 +21,19 @@ export default function Index() {
                     <FeatureCard
                         header="Personality Mirroring"
                         description="Our AI learns from your existing posts to perfectly match your writing style and tone of voice."
-                        icon={<CoinIcon />}
+                        icon={<BrainAIIcon />}
                         iconBgColor="bg-blue-500/20"
                     />
                     <FeatureCard
                         header="Multi-Platform Integration"
                         description="Seamlessly manage your presence across Twitter, LinkedIn, Instagram, and more from a single dashboard."
-                        icon={<BuildingIcon />}
+                        icon={<NetworkIcon />}
                         iconBgColor="bg-purple-500/20"
                     />
                     <FeatureCard
                         header="Full Customization"
                         description="Control exactly how your AI behaves, what it posts, and when it engages with your audience."
-                        icon={<VerifiedIcon />}
+                        icon={<AutomationIcon />}
                         iconBgColor="bg-green-500/20"
                     />
                 </div>
