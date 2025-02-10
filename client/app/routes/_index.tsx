@@ -1,6 +1,6 @@
 import type { MetaFunction } from "@remix-run/node";
 import { Hero, FeatureCard } from "~/components/cards";
-import { BrainAIIcon, NetworkIcon, AutomationIcon } from "~/components/icons";
+import { BrainAIIcon, NetworkIcon, CogIcon } from "~/components/icons";
 
 export const meta: MetaFunction = () => {
     return [
@@ -20,19 +20,19 @@ export default function Index() {
                 <FeatureCard
                     header="Personality Mirroring"
                     description="Our AI learns from your existing posts to perfectly match your writing style and tone of voice."
-                    icon={<BrainAIIcon />}
+                    icon={<BrainAIIcon color="text-blue-400" />}
                     iconBgColor="bg-blue-500/20"
                 />
                 <FeatureCard
                     header="Multi-Platform Integration"
                     description="Seamlessly manage your presence across Twitter, LinkedIn, Instagram, and more from a single dashboard."
-                    icon={<NetworkIcon />}
+                    icon={<NetworkIcon color="text-purple-400" />}
                     iconBgColor="bg-purple-500/20"
                 />
                 <FeatureCard
                     header="Full Customization"
                     description="Control exactly how your AI behaves, what it posts, and when it engages with your audience."
-                    icon={<AutomationIcon />}
+                    icon={<CogIcon color="text-green-400" />}
                     iconBgColor="bg-green-500/20"
                 />
             </div>
