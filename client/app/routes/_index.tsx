@@ -16,7 +16,7 @@ export default function Index() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-theme-bg to-theme-bg-secondary text-white">
             <Hero />
-            <div className="container mx-auto px-4 py-20">
+            <div className="container mx-auto px-4 py-10">
                 <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
                     <FeatureCard
                         header="Personality Mirroring"
