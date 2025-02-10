@@ -1,5 +1,4 @@
 import type { ActionFunctionArgs } from "@remix-run/node";
-import { json } from "@remix-run/node";
 
 import { prefsCookie, DEFAULT_PREFS, type PrefsCookie } from "~/utils/cookies";
 
@@ -21,8 +20,9 @@ export async function action({ request }: ActionFunctionArgs) {
         }, {} as PrefsCookie),
     };
 
-    return json(newPrefs, {
+    return new Response(JSON.stringify(newPrefs), {
         headers: {
+            "Content-Type": "application/json",
             "Set-Cookie": await prefsCookie.serialize(newPrefs),
         },
     });
