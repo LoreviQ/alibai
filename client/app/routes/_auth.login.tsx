@@ -8,6 +8,7 @@ import { supabase } from "~/utils/db.server";
 export async function action({ request }: { request: Request }) {
     const formData = await request.formData();
     const loginType = formData.get("loginType");
+    console.log(loginType);
     try {
         switch (loginType) {
             case "github":
@@ -18,6 +19,7 @@ export async function action({ request }: { request: Request }) {
                     },
                 });
                 if (error) throw error;
+                return null;
             case "test":
                 // Default test login
                 const session = await authStorage.getSession();

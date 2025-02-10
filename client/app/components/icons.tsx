@@ -102,9 +102,9 @@ export function Bars3Icon({ className = "" }: IconProps) {
             fill="currentColor"
         >
             <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
             />
         </svg>
     );
@@ -119,9 +119,9 @@ export function ChevronLeftIcon({ className = "" }: IconProps) {
             fill="currentColor"
         >
             <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
             />
         </svg>
     );
@@ -136,9 +136,9 @@ export function ChevronRightIcon({ className = "" }: IconProps) {
             fill="currentColor"
         >
             <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
             />
         </svg>
     );
