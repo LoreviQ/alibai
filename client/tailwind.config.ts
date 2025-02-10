@@ -9,7 +9,8 @@ export default {
           bg: {
             DEFAULT: '#050508',
             secondary: '#0A0A14',
-            card: '#1A1A24'
+            card: '#1A1A24',
+            border: '#99c2ff',
           },
           primary: {
             DEFAULT: '#0066FF',

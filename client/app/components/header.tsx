@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react";
 import { useFetcher } from "@remix-run/react";
 import { Form } from "@remix-run/react";
 
-import { Logo, Bars3Icon, ChevronLeftIcon, ChevronRightIcon } from "~/components/icons";
+import { Logo, Bars3Icon, ChevronLeftIcon, ChevronRightIcon, UserIcon } from "~/components/icons";
 import { PrefsCookie } from "~/utils/cookies";
 
 interface HeaderProps {
@@ -16,18 +16,18 @@ export function Header({ preferences, username, contentWidth }: HeaderProps) {
     const fetcher = useFetcher();
 
     return (
-        <header className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
+        <header className="bg-theme-bg border-b border-theme-bg-border sticky top-0 z-50">
             <div className={`grid grid-cols-10 items-center h-16 px-8 mx-auto ${contentWidth}`}>
                 <div className="flex items-center space-x-4 justify-start col-span-2">
                     <fetcher.Form method="post" action="updatePreferences">
                         <input type="hidden" name="narrowMode" value={(!preferences.narrowMode).toString()} />
-                        <button className="p-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-gray-200">
+                        <button className="p-2 rounded-lg text-white hover:bg-theme-bg-card">
                             {preferences.narrowMode ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                         </button>
                     </fetcher.Form>
                     <fetcher.Form method="post" action="updatePreferences">
                         <input type="hidden" name="showSidebar" value={(!preferences.showSidebar).toString()} />
-                        <button className="p-2 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-gray-200">
+                        <button className="p-2 rounded-lg text-white hover:bg-theme-bg-card">
                             <Bars3Icon />
                         </button>
                     </fetcher.Form>
@@ -56,9 +56,9 @@ function SearchBar() {
                 <input
                     type="search"
                     placeholder="Search..."
-                    className="w-full bg-gray-800 border border-gray-700 rounded-lg py-2 px-4 text-gray-300 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    className="w-full bg-theme-bg-card border border-gray-700 rounded-lg py-2 px-4 text-gray-300 focus:outline-none focus:border-theme-secondary"
                 />
-                <button className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-300">
+                <button className="absolute right-3 top-2.5 text-white hover:text-gray-300">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path
                             strokeLinecap="round"
@@ -75,10 +75,10 @@ function SearchBar() {
 
 function Dropdown() {
     return (
-        <div className="absolute right-0 top-full mt-3 w-48 rounded-lg bg-gray-800 border border-gray-700 shadow-lg">
+        <div className="absolute right-0 top-full mt-3 w-48 rounded-lg bg-theme-bg-card border border-theme-bg-border shadow-lg">
             <div className="py-1">
                 <Form method="post" action="/logout">
-                    <button className="w-full px-4 py-2 text-left text-gray-300 hover:bg-gray-700 transition-colors">
+                    <button className="w-full px-4 py-2 text-left text-white hover:bg-gray-700 transition-colors">
                         Logout
                     </button>
                 </Form>
@@ -91,16 +91,9 @@ function UserInfo({ username, onClick }: { username: string; onClick: () => void
     return (
         <div className="flex items-center gap-4">
             <div className="flex items-center gap-3">
-                <span className="text-gray-300">{username}</span>
+                <span className="text-white">{username}</span>
                 <button onClick={onClick} className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors">
-                    <svg className="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                        />
-                    </svg>
+                    <UserIcon className="text-white" />
                 </button>
             </div>
         </div>

@@ -12,7 +12,9 @@ export function NavButton({ path, label, icon, isActive, isOpen }: NavButtonProp
         <Link
             to={path}
             className={`flex items-center gap-3 py-3 px-3 rounded-lg transition-all duration-300 ease-in-out min-w-12 min-h-12 ${
-                isActive ? "bg-blue-500/20 text-blue-400" : "text-gray-400 hover:bg-gray-800 hover:text-gray-200"
+                isActive
+                    ? "bg-theme-primary/10 text-theme-secondary-hover"
+                    : "text-theme-secondary hover:bg-theme-primary-hover/10 hover:text-theme-secondary-hover"
             }`}
         >
             <div className="flex-shrink-0">{icon}</div>

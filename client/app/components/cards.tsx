@@ -1,16 +1,16 @@
 import { Link } from "@remix-run/react";
 
+import { Logo } from "~/components/icons";
+
 export function Hero({}) {
     return (
         <div className="container mx-auto px-4 pt-20 pb-32">
-            <div className="max-w-4xl mx-auto text-center">
-                <h1 className="text-8xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-theme-primary to-theme-secondary">
-                    AlibAI
-                </h1>
-                <h2 className="text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-theme-primary to-theme-secondary">
+            <div className="max-w-4xl mx-auto text-center space-y-10">
+                <Logo className="text-8xl" />
+                <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-theme-primary to-theme-secondary">
                     Your Personal AI Social Media Manager
                 </h2>
-                <p className="text-xl text-white mb-12">
+                <p className="text-xl text-white">
                     Let AI manage your social media presence while maintaining your authentic voice and style.
                     Seamlessly integrate across multiple platforms.
                 </p>

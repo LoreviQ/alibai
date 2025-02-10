@@ -25,7 +25,7 @@ export default function App() {
     const preferences = loaderData.preferences as PrefsCookie;
     const widthClass = preferences.narrowMode ? "max-w-7xl" : "";
     return (
-        <div className={`min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white `}>
+        <div className={`min-h-screen bg-gradient-to-b from-theme-bg to-theme-bg-secondary text-white `}>
             <Header preferences={preferences} username={userData.username} contentWidth={widthClass} />
             <div className={`mx-auto ${widthClass}`}>
                 <div className="flex">

@@ -1,19 +1,21 @@
-export function Logo() {
+interface IconProps {
+    className?: string;
+}
+export function Logo({ className = "text-2xl" }: IconProps) {
     return (
-        <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-            Electryon
+        <span
+            className={`${className} font-bold bg-clip-text text-transparent bg-gradient-to-r from-theme-primary to-theme-secondary`}
+        >
+            AlibAI
         </span>
     );
 }
 
-interface IconProps {
-    color?: string;
-}
-export function BrainAIIcon({ color = "" }: IconProps) {
+export function BrainAIIcon({ className = "" }: IconProps) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            className={`w-6 h-6 ${color}`}
+            className={`w-6 h-6 ${className}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 256 256"
@@ -28,11 +30,11 @@ export function BrainAIIcon({ color = "" }: IconProps) {
     );
 }
 
-export function NetworkIcon({ color = "" }: IconProps) {
+export function NetworkIcon({ className = "" }: IconProps) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            className={`w-6 h-6 ${color}`}
+            className={`w-6 h-6 ${className}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -45,10 +47,10 @@ export function NetworkIcon({ color = "" }: IconProps) {
     );
 }
 
-export function CogIcon({ color = "" }: IconProps) {
+export function CogIcon({ className = "" }: IconProps) {
     return (
         <svg
-            className={`w-6 h-6 ${color}`}
+            className={`w-6 h-6 ${className}`}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -65,9 +67,9 @@ export function CogIcon({ color = "" }: IconProps) {
     );
 }
 
-export function BlockIcon({ color = "" }: IconProps) {
+export function BlockIcon({ className = "" }: IconProps) {
     return (
-        <svg className={`w-6 h-6 ${color}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className={`w-6 h-6 ${className}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -78,9 +80,9 @@ export function BlockIcon({ color = "" }: IconProps) {
     );
 }
 
-export function BuildingIcon({ color = "" }: IconProps) {
+export function BuildingIcon({ className = "" }: IconProps) {
     return (
-        <svg className={`w-6 h-6 ${color}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className={`w-6 h-6 ${className}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -91,9 +93,14 @@ export function BuildingIcon({ color = "" }: IconProps) {
     );
 }
 
-export function Bars3Icon({ color = "" }: IconProps) {
+export function Bars3Icon({ className = "" }: IconProps) {
     return (
-        <svg className={`w-6 h-6 ${color}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <svg
+            className={`w-6 h-6 ${className}`}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+        >
             <path
                 fill-rule="evenodd"
                 d="M3 6.75A.75.75 0 0 1 3.75 6h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 6.75ZM3 12a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12Zm0 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z"
@@ -103,9 +110,14 @@ export function Bars3Icon({ color = "" }: IconProps) {
     );
 }
 
-export function ChevronLeftIcon({ color = "" }: IconProps) {
+export function ChevronLeftIcon({ className = "" }: IconProps) {
     return (
-        <svg className={`w-6 h-6 ${color}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <svg
+            className={`w-6 h-6 ${className}`}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+        >
             <path
                 fill-rule="evenodd"
                 d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z"
@@ -115,13 +127,31 @@ export function ChevronLeftIcon({ color = "" }: IconProps) {
     );
 }
 
-export function ChevronRightIcon({ color = "" }: IconProps) {
+export function ChevronRightIcon({ className = "" }: IconProps) {
     return (
-        <svg className={`w-6 h-6 ${color}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+        <svg
+            className={`w-6 h-6 ${className}`}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+        >
             <path
                 fill-rule="evenodd"
                 d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z"
                 clip-rule="evenodd"
+            />
+        </svg>
+    );
+}
+
+export function UserIcon({ className = "" }: IconProps) {
+    return (
+        <svg className={`w-6 h-6 ${className}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
             />
         </svg>
     );
