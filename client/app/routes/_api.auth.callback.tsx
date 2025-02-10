@@ -5,6 +5,8 @@ import { authStorage } from "~/utils/cookies";
 
 export const loader: LoaderFunction = async ({ request }) => {
     console.log("Redirect successful");
+    return null;
+    /*
     const {
         data: { session },
         error,
@@ -29,6 +31,7 @@ export const loader: LoaderFunction = async ({ request }) => {
             "Set-Cookie": await authStorage.commitSession(cookieSession),
         },
     });
+    */
 };
 
 export default function OAuthCallback() {
