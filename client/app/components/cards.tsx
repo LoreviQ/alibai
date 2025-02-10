@@ -41,7 +41,7 @@ interface FeatureCardProps {
 }
 export function FeatureCard({ header, description, icon, iconBgColor = "bg-blue-500/20" }: FeatureCardProps) {
     return (
-        <div className="p-6 rounded-xl bg-theme-bg-card border border-theme-secondary">
+        <div className="p-6 rounded-xl bg-theme-bg-card border border-theme-primary">
             <div className={`w-12 h-12 ${iconBgColor} rounded-lg flex items-center justify-center mb-4`}>{icon}</div>
             <h3 className="text-xl font-semibold mb-2">{header}</h3>
             <p className="text-gray-400">{description}</p>
