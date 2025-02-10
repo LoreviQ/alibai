@@ -8,6 +8,7 @@ import { supabase } from "~/utils/db.server";
 export async function action({ request }: { request: Request }) {
     const formData = await request.formData();
     const provider = formData.get("provider");
+    console.log(process.env.APP_URL);
     try {
         // Default test login --- TO BE REMOVED
         if (provider === "test" || provider === null) {
@@ -26,6 +27,9 @@ export async function action({ request }: { request: Request }) {
         }
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: provider as Provider,
+            options: {
+                redirectTo: `${process.env.APP_URL}/oauth/callback`,
+            },
         });
         if (error) throw error;
         return redirect(data.url);
