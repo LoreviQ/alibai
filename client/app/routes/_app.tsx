@@ -1,5 +1,4 @@
 import { redirect } from "@remix-run/node";
-import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Outlet } from "@remix-run/react";
 
@@ -16,7 +15,7 @@ export async function loader({ request }: { request: Request }) {
         return redirect("/login");
     }
     const preferences = (await prefsCookie.parse(cookieHeader)) || DEFAULT_PREFS;
-    return json({ userData, preferences });
+    return Response.json({ userData, preferences });
 }
 
 export default function App() {

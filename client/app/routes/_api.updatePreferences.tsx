@@ -20,9 +20,8 @@ export async function action({ request }: ActionFunctionArgs) {
         }, {} as PrefsCookie),
     };
 
-    return new Response(JSON.stringify(newPrefs), {
+    return Response.json(newPrefs, {
         headers: {
-            "Content-Type": "application/json",
             "Set-Cookie": await prefsCookie.serialize(newPrefs),
         },
     });
