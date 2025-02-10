@@ -15,9 +15,9 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+        <div className="min-h-screen bg-gradient-to-b from-theme-bg to-theme-bg-secondary text-white">
             <Hero />
-            <div className="container mx-auto px-4 py-20 bg-gray-800/50">
+            <div className="container mx-auto px-4 py-20">
                 <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
                     <FeatureCard
                         header="Personality Mirroring"
