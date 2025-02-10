@@ -1,40 +1,37 @@
+import type { Provider } from "@supabase/supabase-js";
 import { Form } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 
-import type { AuthCookie } from "~/utils/cookies";
-import { authStorage } from "~/utils/cookies";
+import { authStorage, type AuthCookie } from "~/utils/cookies";
 import { supabase } from "~/utils/db.server";
 
 export async function action({ request }: { request: Request }) {
     const formData = await request.formData();
-    const loginType = formData.get("loginType");
-    console.log(loginType);
+    const provider = formData.get("provider");
     try {
-        switch (loginType) {
-            case "github":
-                const { error } = await supabase.auth.signInWithOAuth({
-                    provider: "github",
-                    options: {
-                        redirectTo: `${process.env.APP_URL}/oauth/callback`,
-                    },
-                });
-                if (error) throw error;
-                return null;
-            case "test":
-                // Default test login
-                const session = await authStorage.getSession();
-                const userData: AuthCookie = {
-                    userid: "1",
-                    username: "defaultUser",
-                    authenticated: true,
-                };
-                session.set("user", userData);
-                return redirect("/dashboard", {
-                    headers: {
-                        "Set-Cookie": await authStorage.commitSession(session),
-                    },
-                });
+        // Default test login --- TO BE REMOVED
+        if (provider === "test" || provider === null) {
+            const session = await authStorage.getSession();
+            const userData: AuthCookie = {
+                userid: "1",
+                username: "defaultUser",
+                authenticated: true,
+            };
+            session.set("user", userData);
+            return redirect("/dashboard", {
+                headers: {
+                    "Set-Cookie": await authStorage.commitSession(session),
+                },
+            });
         }
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: provider as Provider,
+            options: {
+                redirectTo: `${process.env.APP_URL}/oauth/callback`,
+            },
+        });
+        if (error) throw error;
+        return redirect(data.url);
     } catch (error) {
         console.error(error);
         throw new Response("Failed to complete authentication", { status: 500 });
@@ -46,7 +43,7 @@ export default function Login() {
         <div className="w-full max-w-md p-8 rounded-xl bg-theme-bg-card border border-theme-primary space-y-4">
             <h3 className="text-2xl text-center font-semibold">Sign In</h3>
             <Form method="post">
-                <input type="hidden" name="loginType" value="github" />
+                <input type="hidden" name="provider" value="github" />
                 <button
                     type="submit"
                     className="w-full px-6 py-3 bg-gray-800 hover:bg-gray-900 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
@@ -58,7 +55,7 @@ export default function Login() {
                 </button>
             </Form>
             <Form method="post">
-                <input type="hidden" name="loginType" value="test" />
+                <input type="hidden" name="provider" value="test" />
                 <button
                     type="submit"
                     className="w-full px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-lg font-semibold transition-colors"
