@@ -8,7 +8,7 @@ import { usePreferences } from "~/contexts/preferences";
 
 interface HeaderProps {
     preferences: PrefsCookie;
-    email: string;
+    email?: string;
     contentWidth: string;
 }
 export function Header({ email, contentWidth }: HeaderProps) {
@@ -87,7 +87,7 @@ function Dropdown() {
     );
 }
 
-function UserInfo({ email, onClick }: { email: string; onClick: () => void }) {
+function UserInfo({ email = "none", onClick }: { email?: string; onClick: () => void }) {
     return (
         <div className="flex items-center gap-4">
             <div className="flex items-center gap-3">
