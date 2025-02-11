@@ -7,7 +7,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const code = requestUrl.searchParams.get("code");
     const next = requestUrl.searchParams.get("next") || "/dashboard";
     const headers = new Headers();
-
+    console.log(requestUrl);
     if (code) {
         const supabaseAuth = getSupabaseAuth(request);
 
