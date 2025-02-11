@@ -8,10 +8,10 @@ import { PrefsCookie } from "~/utils/cookies";
 
 interface HeaderProps {
     preferences: PrefsCookie;
-    username: string;
+    email: string;
     contentWidth: string;
 }
-export function Header({ preferences, username, contentWidth }: HeaderProps) {
+export function Header({ preferences, email, contentWidth }: HeaderProps) {
     const [isOpen, setIsOpen] = useState(false);
     const fetcher = useFetcher();
 
@@ -40,7 +40,7 @@ export function Header({ preferences, username, contentWidth }: HeaderProps) {
                 </div>
                 <div className="flex justify-end col-span-2">
                     <div className="relative">
-                        <UserInfo username={username} onClick={() => setIsOpen(!isOpen)} />
+                        <UserInfo email={email} onClick={() => setIsOpen(!isOpen)} />
                         {isOpen && <Dropdown />}
                     </div>
                 </div>
@@ -87,11 +87,11 @@ function Dropdown() {
     );
 }
 
-function UserInfo({ username, onClick }: { username: string; onClick: () => void }) {
+function UserInfo({ email, onClick }: { email: string; onClick: () => void }) {
     return (
         <div className="flex items-center gap-4">
             <div className="flex items-center gap-3">
-                <span className="text-white">{username}</span>
+                <span className="text-white">{email}</span>
                 <button onClick={onClick} className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors">
                     <UserIcon className="text-white" />
                 </button>
