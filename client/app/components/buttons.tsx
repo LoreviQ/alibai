@@ -22,3 +22,19 @@ export function NavButton({ path, label, icon, isActive, isOpen }: NavButtonProp
         </Link>
     );
 }
+
+export function ActionButton({
+    label,
+    className,
+    onClick,
+}: {
+    label: string;
+    className?: string;
+    onClick?: () => void;
+}) {
+    return (
+        <button className={`px-4 py-2 min-w-32 text-white rounded-3xl ${className}`} onClick={onClick}>
+            {label}
+        </button>
+    );
+}
