@@ -1,16 +1,24 @@
+import { redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Outlet } from "@remix-run/react";
 
 import type { PrefsCookie } from "~/utils/cookies";
 import { prefsCookie, DEFAULT_PREFS } from "~/utils/cookies";
-import { requireAuth } from "~/utils/db.server";
 import { Header } from "~/components/header";
 import { Sidebar } from "~/components/sidebar";
 import { User } from "~/types/user";
+import { getSupabaseAuth, getUser } from "~/utils/db.server";
 
 export async function loader({ request }: { request: Request }) {
+    const supabaseAuth = getSupabaseAuth(request.headers);
+    const {
+        data: { session },
+    } = await supabaseAuth.auth.getSession();
+    if (!session) {
+        throw redirect("/login");
+    }
+    const userData = await getUser();
     const cookieHeader = request.headers.get("Cookie");
-    const userData = requireAuth(request);
     const preferences = (await prefsCookie.parse(cookieHeader)) || DEFAULT_PREFS;
     return Response.json({ userData, preferences });
 }

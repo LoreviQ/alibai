@@ -4,7 +4,7 @@ import { Outlet } from "@remix-run/react";
 import { getSupabaseAuth } from "~/utils/db.server";
 
 export async function loader({ request }: { request: Request }) {
-    const supabaseAuth = getSupabaseAuth(request);
+    const supabaseAuth = getSupabaseAuth(request.headers);
     const {
         data: { session },
     } = await supabaseAuth.auth.getSession();

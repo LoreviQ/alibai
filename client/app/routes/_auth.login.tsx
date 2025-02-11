@@ -8,7 +8,7 @@ export async function action({ request }: { request: Request }) {
     const formData = await request.formData();
     const provider = formData.get("provider");
     const headers = new Headers();
-    const supabase = getSupabaseAuth(request, headers);
+    const supabase = getSupabaseAuth(headers);
     try {
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: provider as Provider,

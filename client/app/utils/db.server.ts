@@ -1,18 +1,16 @@
 
 import { createServerClient, parseCookieHeader, serializeCookieHeader } from "@supabase/ssr";
-import { redirect} from "@remix-run/node";
 
-import type { User } from '~/types/user';
 
 // For auth-related operations
-export function getSupabaseAuth(request: Request, headers: Headers) {
+export function getSupabaseAuth(headers: Headers = new Headers()) {
     return createServerClient(
         process.env.SUPABASE_URL!,
         process.env.SUPABASE_ANON_KEY!,
         {
             cookies: {
                 getAll() {
-                    return parseCookieHeader(request.headers.get("Cookie") ?? "");
+                    return parseCookieHeader(headers.get("Cookie") ?? "");
                 },
                 setAll(cookiesToSet) {
                     cookiesToSet.forEach(({ name, value, options }) =>
@@ -24,24 +22,8 @@ export function getSupabaseAuth(request: Request, headers: Headers) {
     )
 }
 
-// Helper for protected routes
-export async function requireAuth(request: Request) : Promise<User> {
-    const supabaseAuth = getSupabaseAuth(request, request.headers);
-    const { data: { session } } = await supabaseAuth.auth.getSession();
-    
-    if (!session) {
-        throw  redirect("/login");
-    }
-
-    const { data: profile } = await supabaseAuth
-        .from('user_profiles')
-        .select('username')
-        .eq('id', session.user.id)
-        .single();
-    console.log(session);
-    console.log(profile);
-    return { 
-        id: session.user.id,
-        username: profile?.username,
-    } satisfies User;
+export const getUser = async () => {
+    const supabase = getSupabaseAuth();
+    const user = await supabase.auth.getUser();
+    return user;
 }
