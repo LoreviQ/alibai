@@ -28,7 +28,7 @@ export async function action({ request }: { request: Request }) {
 export default function Login() {
     return (
         <div className="w-full max-w-md py-8 px-16 rounded-xl bg-theme-bg-card border border-theme-secondary space-y-4">
-            <h3 className="text-4xl text-center font-semibold text-theme-secondary">Login</h3>
+            <h3 className="text-4xl mb-8 text-center font-semibold text-theme-secondary">Login</h3>
             <div className="space-y-3">
                 {PROVIDERS.map((provider) => (
                     <ProviderLoginButton key={provider.id} provider={provider} />
