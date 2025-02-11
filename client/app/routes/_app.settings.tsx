@@ -1,6 +1,6 @@
-import { useOutletContext } from "@remix-run/react";
-import type { User, Provider } from "@supabase/supabase-js";
-import type { FC } from "react";
+import { useOutletContext, useActionData } from "@remix-run/react";
+import type { User, Provider, UserIdentity } from "@supabase/supabase-js";
+import { type FC, useEffect } from "react";
 import { Form } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 
@@ -10,27 +10,51 @@ import { HeadingBreak } from "~/components/cards";
 import { PROVIDERS } from "~/types/providers";
 
 export async function action({ request }: { request: Request }) {
-    debugger;
     const formData = await request.formData();
     const provider = formData.get("provider");
+    const connected = formData.get("connected") === "1";
     const { supabase, headers } = getSupabaseAuth(request);
     try {
-        const { data, error } = await supabase.auth.linkIdentity({
-            provider: provider as Provider,
-            options: {
-                redirectTo: `${process.env.APP_URL}/auth-callback?next=/settings`,
-            },
-        });
-        if (error) throw error;
-        return redirect(data.url, { headers });
-    } catch (error) {
+        if (connected) {
+            // Disconnect identity
+            const { data } = await supabase.auth.getUserIdentities();
+            if (!data?.identities) throw new Error("No identities found");
+            const matchingIdentity = data.identities.find((identity: UserIdentity) => identity.provider === provider);
+            if (!matchingIdentity) throw new Error("Identity not found");
+            const { error } = await supabase.auth.unlinkIdentity(matchingIdentity);
+            if (error) throw error;
+            return Response.json({ status: 200 });
+        } else {
+            // Connect identity
+            const { data, error } = await supabase.auth.linkIdentity({
+                provider: provider as Provider,
+                options: {
+                    redirectTo: `${process.env.APP_URL}/auth-callback?next=/settings`,
+                },
+            });
+            if (error) throw error;
+            return redirect(data.url, { headers });
+        }
+    } catch (error: unknown) {
         console.error(error);
-        throw new Response("Failed to complete authentication", { status: 500 });
+        // Type guard for Error object
+        if (error instanceof Error) {
+            return Response.json({ error: error.message, status: 500 }, { status: 500 });
+        }
+        return Response.json({ error: "An unknown error occurred", status: 500 }, { status: 500 });
     }
 }
 
 export default function Settings() {
     const userData = useOutletContext<User>();
+    const actionData = useActionData<typeof action>();
+
+    useEffect(() => {
+        if (actionData?.error) {
+            alert(`ERR - ${actionData.status}\n${actionData.error}`);
+        }
+    }, [actionData]);
+
     const connectedProviders = PROVIDERS.filter((provider) =>
         userData.identities?.some((identity) => identity.provider === provider.id)
     );
@@ -84,6 +108,7 @@ function ProviderDetails({ id, name, Icon, connected }: ProviderDetailsProps) {
             </div>
             <Form method="post">
                 <input type="hidden" name="provider" value={id} />
+                <input type="hidden" name="connected" value={connected ? "1" : "0"} />
                 {connected ? (
                     <SubmitButton label="Disconnect" className="bg-red-500 hover:bg-red-400" />
                 ) : (
