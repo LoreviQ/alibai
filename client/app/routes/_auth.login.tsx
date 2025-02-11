@@ -11,7 +11,8 @@ export async function action({ request }: { request: Request }) {
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: provider as Provider,
             options: {
-                redirectTo: `https://alibai.vercel.app/auth/callback`,
+                redirectTo: `https://alibai.vercel.app/auth-callback`,
+                skipBrowserRedirect: true,
             },
         });
         if (error) throw error;
