@@ -38,7 +38,8 @@ export async function requireAuth(request: Request) : Promise<User> {
         .select('username')
         .eq('id', session.user.id)
         .single();
-
+    console.log(session);
+    console.log(profile);
     return { 
         id: session.user.id,
         username: profile?.username,

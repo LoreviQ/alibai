@@ -2,12 +2,10 @@ import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import { createServerClient, parseCookieHeader, serializeCookieHeader } from "@supabase/ssr";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-    console.log("Redirect successful");
     const requestUrl = new URL(request.url);
     const code = requestUrl.searchParams.get("code");
     const next = requestUrl.searchParams.get("next") || "/dashboard";
     const headers = request.headers;
-    console.log(requestUrl);
 
     if (!code) {
         return redirect("/auth-code-error", { headers });

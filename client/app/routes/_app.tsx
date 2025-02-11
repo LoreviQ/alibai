@@ -20,7 +20,6 @@ export default function App() {
     const userData = loaderData.userData as User;
     const preferences = loaderData.preferences as PrefsCookie;
     const widthClass = preferences.narrowMode ? "max-w-7xl" : "";
-    console.log(userData);
     return (
         <div className={`min-h-screen bg-gradient-to-b from-theme-bg to-theme-bg-secondary text-white `}>
             <Header preferences={preferences} username={userData.username} contentWidth={widthClass} />
