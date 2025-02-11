@@ -65,7 +65,7 @@ export default function Settings() {
     return (
         <div className="bg-theme-bg-card/70 rounded-lg p-6">
             <h1 className="text-xl font-semibold mb-4">Accounts</h1>
-            <HeadingBreak label="Connected Accounts" colour="theme-secondary" />
+            <HeadingBreak label="Connected Accounts" />
             <div className="space-y-2">
                 {connectedProviders.map((provider) => (
                     <ProviderDetails
@@ -77,7 +77,7 @@ export default function Settings() {
                     />
                 ))}
             </div>
-            <HeadingBreak label="Other Accounts" colour="red-500" />
+            <HeadingBreak label="Other Accounts" colour="red" />
             <div className="space-y-2">
                 {nonConnectedProviders.map((provider) => (
                     <ProviderDetails
