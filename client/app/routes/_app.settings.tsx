@@ -77,18 +77,22 @@ export default function Settings() {
                     />
                 ))}
             </div>
-            <HeadingBreak label="Other Accounts" colour="red" />
-            <div className="space-y-2">
-                {nonConnectedProviders.map((provider) => (
-                    <ProviderDetails
-                        id={provider.id}
-                        name={provider.name}
-                        Icon={provider.icon}
-                        connected={false}
-                        key={provider.id}
-                    />
-                ))}
-            </div>
+            {nonConnectedProviders.length > 0 && (
+                <>
+                    <HeadingBreak label="Other Accounts" colour="red" />
+                    <div className="space-y-2">
+                        {nonConnectedProviders.map((provider) => (
+                            <ProviderDetails
+                                id={provider.id}
+                                name={provider.name}
+                                Icon={provider.icon}
+                                connected={false}
+                                key={provider.id}
+                            />
+                        ))}
+                    </div>
+                </>
+            )}
         </div>
     );
 }
