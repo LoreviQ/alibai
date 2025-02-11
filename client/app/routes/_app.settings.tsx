@@ -1,10 +1,33 @@
 import { useOutletContext } from "@remix-run/react";
-import type { User } from "@supabase/supabase-js";
+import type { User, Provider } from "@supabase/supabase-js";
 import type { FC } from "react";
+import { Form } from "@remix-run/react";
+import { redirect } from "@remix-run/node";
 
-import { ActionButton } from "~/components/buttons";
+import { getSupabaseAuth } from "~/utils/db.server";
+import { SubmitButton } from "~/components/buttons";
 import { HeadingBreak } from "~/components/cards";
 import { PROVIDERS } from "~/types/providers";
+
+export async function action({ request }: { request: Request }) {
+    debugger;
+    const formData = await request.formData();
+    const provider = formData.get("provider");
+    const { supabase, headers } = getSupabaseAuth(request);
+    try {
+        const { data, error } = await supabase.auth.linkIdentity({
+            provider: provider as Provider,
+            options: {
+                redirectTo: `${process.env.APP_URL}/auth-callback?next=/settings`,
+            },
+        });
+        if (error) throw error;
+        return redirect(data.url, { headers });
+    } catch (error) {
+        console.error(error);
+        throw new Response("Failed to complete authentication", { status: 500 });
+    }
+}
 
 export default function Settings() {
     const userData = useOutletContext<User>();
@@ -59,24 +82,14 @@ function ProviderDetails({ id, name, Icon, connected }: ProviderDetailsProps) {
                 {Icon && <Icon />}
                 <span className="font-medium">{name}</span>
             </div>
-
-            {connected ? (
-                <ActionButton
-                    label="Disconnect"
-                    className="bg-red-500 hover:bg-red-400"
-                    onClick={() => {
-                        /* Add disconnect handler */
-                    }}
-                />
-            ) : (
-                <ActionButton
-                    label="Connect"
-                    className="bg-theme-primary hover:bg-theme-primary-hover"
-                    onClick={() => {
-                        /* Add connect handler */
-                    }}
-                />
-            )}
+            <Form method="post">
+                <input type="hidden" name="provider" value={id} />
+                {connected ? (
+                    <SubmitButton label="Disconnect" className="bg-red-500 hover:bg-red-400" />
+                ) : (
+                    <SubmitButton label="Connect" className="bg-theme-primary hover:bg-theme-primary-hover" />
+                )}
+            </Form>
         </div>
     );
 }
