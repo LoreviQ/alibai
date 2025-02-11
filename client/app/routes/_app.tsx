@@ -7,6 +7,7 @@ import { prefsCookie, DEFAULT_PREFS } from "~/utils/cookies";
 import { Header } from "~/components/header";
 import { Sidebar } from "~/components/sidebar";
 import { getSupabaseAuth } from "~/utils/db.server";
+import { PreferencesProvider } from "~/contexts/preferences";
 
 export async function loader({ request }: { request: Request }) {
     const supabaseAuth = getSupabaseAuth(request.headers);
@@ -28,16 +29,18 @@ export default function App() {
     const preferences = loaderData.preferences as PrefsCookie;
     const widthClass = preferences.narrowMode ? "max-w-7xl" : "";
     return (
-        <div className={`min-h-screen bg-gradient-to-b from-theme-bg to-theme-bg-secondary text-white `}>
-            <Header preferences={preferences} email={userData.email} contentWidth={widthClass} />
-            <div className={`mx-auto ${widthClass}`}>
-                <div className="flex">
-                    <Sidebar isOpen={preferences.showSidebar} />
-                    <main className="flex-1 p-6">
-                        <Outlet context={userData} />
-                    </main>
+        <PreferencesProvider initial={preferences}>
+            <div className={`min-h-screen bg-gradient-to-b from-theme-bg to-theme-bg-secondary text-white `}>
+                <Header preferences={preferences} email={userData.email} contentWidth={widthClass} />
+                <div className={`mx-auto ${widthClass}`}>
+                    <div className="flex">
+                        <Sidebar isOpen={preferences.showSidebar} />
+                        <main className="flex-1 p-6">
+                            <Outlet context={userData} />
+                        </main>
+                    </div>
                 </div>
             </div>
-        </div>
+        </PreferencesProvider>
     );
 }

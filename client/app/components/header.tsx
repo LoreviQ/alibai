@@ -1,36 +1,36 @@
 import { useState } from "react";
 import { Link } from "@remix-run/react";
-import { useFetcher } from "@remix-run/react";
 import { Form } from "@remix-run/react";
 
 import { Logo, Bars3Icon, ChevronLeftIcon, ChevronRightIcon, UserIcon } from "~/components/icons";
 import { PrefsCookie } from "~/utils/cookies";
+import { usePreferences } from "~/contexts/preferences";
 
 interface HeaderProps {
     preferences: PrefsCookie;
     email: string;
     contentWidth: string;
 }
-export function Header({ preferences, email, contentWidth }: HeaderProps) {
+export function Header({ email, contentWidth }: HeaderProps) {
     const [isOpen, setIsOpen] = useState(false);
-    const fetcher = useFetcher();
+    const { preferences, updatePreference } = usePreferences();
 
     return (
         <header className="bg-theme-bg border-b border-theme-bg-border sticky top-0 z-50">
             <div className={`grid grid-cols-10 items-center h-16 px-8 mx-auto ${contentWidth}`}>
                 <div className="flex items-center space-x-4 justify-start col-span-2">
-                    <fetcher.Form method="post" action="updatePreferences">
-                        <input type="hidden" name="narrowMode" value={(!preferences.narrowMode).toString()} />
-                        <button className="p-2 rounded-lg text-white hover:bg-theme-bg-card">
-                            {preferences.narrowMode ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                        </button>
-                    </fetcher.Form>
-                    <fetcher.Form method="post" action="updatePreferences">
-                        <input type="hidden" name="showSidebar" value={(!preferences.showSidebar).toString()} />
-                        <button className="p-2 rounded-lg text-white hover:bg-theme-bg-card">
-                            <Bars3Icon />
-                        </button>
-                    </fetcher.Form>
+                    <button
+                        onClick={() => updatePreference("narrowMode", !preferences.narrowMode)}
+                        className="p-2 rounded-lg text-white hover:bg-theme-bg-card"
+                    >
+                        {preferences.narrowMode ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    </button>
+                    <button
+                        onClick={() => updatePreference("showSidebar", !preferences.showSidebar)}
+                        className="p-2 rounded-lg text-white hover:bg-theme-bg-card"
+                    >
+                        <Bars3Icon />
+                    </button>
                     <Link to="/" className="flex items-center">
                         <Logo />
                     </Link>
