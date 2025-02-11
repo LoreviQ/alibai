@@ -1,6 +1,5 @@
 import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
-
-import { getSupabaseAuth } from "~/utils/db.server";
+import { createServerClient, parseCookieHeader, serializeCookieHeader } from "@supabase/ssr";
 
 export async function loader({ request }: LoaderFunctionArgs) {
     const requestUrl = new URL(request.url);
@@ -9,15 +8,26 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const headers = new Headers();
     console.log(requestUrl);
     if (code) {
-        const supabaseAuth = getSupabaseAuth(request);
+        const supabase = createServerClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!, {
+            cookies: {
+                getAll() {
+                    return parseCookieHeader(request.headers.get("Cookie") ?? "");
+                },
+                setAll(cookiesToSet) {
+                    cookiesToSet.forEach(({ name, value, options }) =>
+                        headers.append("Set-Cookie", serializeCookieHeader(name, value, options))
+                    );
+                },
+            },
+        });
 
-        const { error } = await supabaseAuth.auth.exchangeCodeForSession(code);
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
 
         if (!error) {
             return redirect(next, { headers });
         }
-        return null;
     }
 
-    return null;
+    // return the user to an error page with instructions
+    return redirect("/auth-code-error", { headers });
 }

@@ -1,13 +1,8 @@
-import { createClient } from '@supabase/supabase-js'
+
 import { createServerClient, parseCookieHeader, serializeCookieHeader } from "@supabase/ssr";
 import { redirect} from "@remix-run/node";
 
 import type { User } from '~/types/user';
-
-export const supabase = createClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY!
-)
 
 // For auth-related operations
 export function getSupabaseAuth(request: Request) {
