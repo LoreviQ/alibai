@@ -1,13 +1,12 @@
 import { redirect } from "@remix-run/node";
 
-import { authStorage } from "~/utils/cookies";
+import { getSupabaseAuth } from "~/utils/db.server";
 
 export async function action({ request }: { request: Request }) {
-    const session = await authStorage.getSession(request.headers.get("Cookie"));
-
+    const headers = new Headers();
+    const supabaseAuth = getSupabaseAuth(request);
+    await supabaseAuth.auth.signOut();
     return redirect("/", {
-        headers: {
-            "Set-Cookie": await authStorage.destroySession(session),
-        },
+        headers,
     });
 }

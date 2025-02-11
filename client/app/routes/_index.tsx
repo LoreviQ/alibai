@@ -20,19 +20,19 @@ export default function Index() {
                 <FeatureCard
                     header="Personality Mirroring"
                     description="Our AI learns from your existing posts to perfectly match your writing style and tone of voice."
-                    icon={<BrainAIIcon color="text-blue-400" />}
+                    icon={<BrainAIIcon className="text-blue-400" />}
                     iconBgColor="bg-blue-500/20"
                 />
                 <FeatureCard
                     header="Multi-Platform Integration"
                     description="Seamlessly manage your presence across Twitter, LinkedIn, Instagram, and more from a single dashboard."
-                    icon={<NetworkIcon color="text-purple-400" />}
+                    icon={<NetworkIcon className="text-purple-400" />}
                     iconBgColor="bg-purple-500/20"
                 />
                 <FeatureCard
                     header="Full Customization"
                     description="Control exactly how your AI behaves, what it posts, and when it engages with your audience."
-                    icon={<CogIcon color="text-green-400" />}
+                    icon={<CogIcon className="text-green-400" />}
                     iconBgColor="bg-green-500/20"
                 />
             </div>
