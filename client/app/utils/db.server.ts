@@ -26,7 +26,7 @@ export function getSupabaseAuth(request: Request, headers: Headers) {
 
 // Helper for protected routes
 export async function requireAuth(request: Request) : Promise<User> {
-    const supabaseAuth = getSupabaseAuth(request, new Headers());
+    const supabaseAuth = getSupabaseAuth(request, request.headers);
     const { data: { session } } = await supabaseAuth.auth.getSession();
     
     if (!session) {
