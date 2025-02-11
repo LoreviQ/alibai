@@ -1,26 +1,23 @@
-import { redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Outlet } from "@remix-run/react";
 
-import type { AuthCookie, PrefsCookie } from "~/utils/cookies";
-import { authStorage, prefsCookie, DEFAULT_PREFS } from "~/utils/cookies";
+import type { PrefsCookie } from "~/utils/cookies";
+import { prefsCookie, DEFAULT_PREFS } from "~/utils/cookies";
+import { requireAuth } from "~/utils/db.server";
 import { Header } from "~/components/header";
 import { Sidebar } from "~/components/sidebar";
+import { User } from "~/types/user";
 
 export async function loader({ request }: { request: Request }) {
     const cookieHeader = request.headers.get("Cookie");
-    const session = await authStorage.getSession(cookieHeader);
-    const userData = session.get("user");
-    if (!userData) {
-        return redirect("/login");
-    }
+    const userData = requireAuth(request);
     const preferences = (await prefsCookie.parse(cookieHeader)) || DEFAULT_PREFS;
     return Response.json({ userData, preferences });
 }
 
 export default function App() {
     const loaderData = useLoaderData<typeof loader>();
-    const userData = loaderData.userData as AuthCookie;
+    const userData = loaderData.userData as User;
     const preferences = loaderData.preferences as PrefsCookie;
     const widthClass = preferences.narrowMode ? "max-w-7xl" : "";
     return (

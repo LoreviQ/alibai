@@ -1,41 +1,23 @@
 import { redirect, type LoaderFunctionArgs } from "@remix-run/node";
-import { supabase } from "~/utils/db.server";
-import type { AuthCookie } from "~/utils/cookies";
-import { authStorage } from "~/utils/cookies";
+
+import { getSupabaseAuth } from "~/utils/db.server";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-    console.log("Redirect successful");
     const requestUrl = new URL(request.url);
-    console.log(requestUrl);
-    return null;
-    /*
-    const {
-        data: { session },
-        error,
-    } = await supabase.auth.getSession();
+    const code = requestUrl.searchParams.get("code");
+    const next = requestUrl.searchParams.get("next") || "/dashboard";
+    const headers = new Headers();
 
-    if (error || !session) {
-        return redirect("/login");
+    if (code) {
+        const supabaseAuth = getSupabaseAuth(request);
+
+        const { error } = await supabaseAuth.auth.exchangeCodeForSession(code);
+
+        if (!error) {
+            return redirect(next, { headers });
+        }
     }
 
-    // Create our own session with the data we want
-    const cookieSession = await authStorage.getSession();
-    const userData: AuthCookie = {
-        userid: session.user.id,
-        username: session.user.email || session.user.user_metadata.user_name,
-        authenticated: true,
-    };
-
-    cookieSession.set("user", userData);
-
-    return redirect("/dashboard", {
-        headers: {
-            "Set-Cookie": await authStorage.commitSession(cookieSession),
-        },
-    });
-    */
-}
-
-export default function OAuthCallback() {
-    return <div>OAuthCallback</div>;
+    // return the user to an error page with instructions
+    return redirect("/auth/auth-code-error", { headers });
 }

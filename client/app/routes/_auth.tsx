@@ -1,13 +1,15 @@
 import { redirect } from "@remix-run/node";
 import { Outlet } from "@remix-run/react";
 
-import { authStorage } from "~/utils/cookies";
+import { getSupabaseAuth } from "~/utils/db.server";
 
 export async function loader({ request }: { request: Request }) {
-    const session = await authStorage.getSession(request.headers.get("Cookie"));
-    const userData = session.get("user");
-    if (userData) {
-        return redirect("/dashboard");
+    const supabaseAuth = getSupabaseAuth(request);
+    const {
+        data: { session },
+    } = await supabaseAuth.auth.getSession();
+    if (session) {
+        throw redirect("/dashboard");
     }
     return null;
 }
