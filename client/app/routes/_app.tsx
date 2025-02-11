@@ -7,7 +7,7 @@ import { prefsCookie, DEFAULT_PREFS } from "~/utils/cookies";
 import { Header } from "~/components/header";
 import { Sidebar } from "~/components/sidebar";
 import { User } from "~/types/user";
-import { getSupabaseAuth, getUser } from "~/utils/db.server";
+import { getSupabaseAuth } from "~/utils/db.server";
 
 export async function loader({ request }: { request: Request }) {
     const supabaseAuth = getSupabaseAuth(request.headers);
@@ -17,7 +17,10 @@ export async function loader({ request }: { request: Request }) {
     if (!session) {
         throw redirect("/login");
     }
-    const userData = await getUser();
+    const userData = await supabaseAuth.auth.getUser();
+    console.log(session);
+    console.log(userData);
+
     const cookieHeader = request.headers.get("Cookie");
     const preferences = (await prefsCookie.parse(cookieHeader)) || DEFAULT_PREFS;
     return Response.json({ userData, preferences });

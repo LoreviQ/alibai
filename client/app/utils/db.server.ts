@@ -21,10 +21,3 @@ export function getSupabaseAuth(headers: Headers = new Headers()) {
         }
     )
 }
-
-export const getUser = async () => {
-    const supabase = getSupabaseAuth();
-    const user = await supabase.auth.getUser();
-    console.log(user);
-    return user;
-}
