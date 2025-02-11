@@ -17,14 +17,14 @@ export async function loader({ request }: LoaderFunctionArgs) {
             return redirect(next, { headers });
         }
         return redirect(
-            `/auth/auth-code-error?error=${encodeURIComponent(error.name)}&error_description=${encodeURIComponent(
+            `/auth-code-error?error=${encodeURIComponent(error.name)}&error_description=${encodeURIComponent(
                 error.message
             )}`,
             { headers }
         );
     }
 
-    return redirect(`/auth/auth-code-error?error=Missing Code&error_description=No authentication code was provided`, {
+    return redirect(`/auth-code-error?error=Missing Code&error_description=No authentication code was provided`, {
         headers,
     });
 }
