@@ -2,15 +2,17 @@ import { type Provider, createClient } from "@supabase/supabase-js";
 import { Form } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 
+import { getSupabaseAuth } from "~/utils/db.server";
+
 export async function action({ request }: { request: Request }) {
     const formData = await request.formData();
     const provider = formData.get("provider");
-    const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!);
+    const supabase = getSupabaseAuth(request);
     try {
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: provider as Provider,
             options: {
-                redirectTo: `https://alibai.vercel.app/auth-callback`,
+                redirectTo: `${process.env.APP_URL}/auth-callback`,
             },
         });
         if (error) throw error;
