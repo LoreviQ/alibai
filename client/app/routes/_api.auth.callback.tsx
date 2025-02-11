@@ -16,15 +16,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
         if (!error) {
             return redirect(next, { headers });
         }
-        return redirect(
-            `/auth-code-error?error=${encodeURIComponent(error.name)}&error_description=${encodeURIComponent(
-                error.message
-            )}`,
-            { headers }
-        );
+        return null;
     }
 
-    return redirect(`/auth-code-error?error=Missing Code&error_description=No authentication code was provided`, {
-        headers,
-    });
+    return null;
 }
