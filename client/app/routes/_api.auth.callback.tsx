@@ -16,6 +16,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
         if (!error) {
             return redirect(next, { headers });
         }
+        console.error(error);
     }
 
     // return the user to an error page with instructions
