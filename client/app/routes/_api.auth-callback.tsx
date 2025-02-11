@@ -8,28 +8,30 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const next = requestUrl.searchParams.get("next") || "/dashboard";
     const headers = new Headers();
     console.log(requestUrl);
-    if (code) {
-        const supabase = createServerClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!, {
-            cookies: {
-                getAll() {
-                    return parseCookieHeader(request.headers.get("Cookie") ?? "");
-                },
-                setAll(cookiesToSet) {
-                    cookiesToSet.forEach(({ name, value, options }) =>
-                        headers.append("Set-Cookie", serializeCookieHeader(name, value, options))
-                    );
-                },
-            },
-        });
 
-        const { error } = await supabase.auth.exchangeCodeForSession(code);
-
-        if (!error) {
-            return redirect(next, { headers });
-        }
-        console.error(error);
+    if (!code) {
+        return redirect("/auth-code-error", { headers });
     }
 
-    // return the user to an error page with instructions
-    return redirect("/auth-code-error", { headers });
+    const supabase = createServerClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!, {
+        cookies: {
+            getAll() {
+                return parseCookieHeader(request.headers.get("Cookie") ?? "");
+            },
+            setAll(cookiesToSet) {
+                cookiesToSet.forEach(({ name, value, options }) =>
+                    headers.append("Set-Cookie", serializeCookieHeader(name, value, options))
+                );
+            },
+        },
+    });
+
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+
+    if (error) {
+        console.error(error);
+        return redirect("/auth-code-error", { headers });
+    }
+
+    return redirect(next, { headers });
 }

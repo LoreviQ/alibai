@@ -5,8 +5,7 @@ import { redirect} from "@remix-run/node";
 import type { User } from '~/types/user';
 
 // For auth-related operations
-export function getSupabaseAuth(request: Request) {
-    const headers = new Headers();
+export function getSupabaseAuth(request: Request, headers: Headers) {
     return createServerClient(
         process.env.SUPABASE_URL!,
         process.env.SUPABASE_ANON_KEY!,
@@ -22,12 +21,12 @@ export function getSupabaseAuth(request: Request) {
                 },
             },
         }
-    );
+    )
 }
 
 // Helper for protected routes
 export async function requireAuth(request: Request) : Promise<User> {
-    const supabaseAuth = getSupabaseAuth(request);
+    const supabaseAuth = getSupabaseAuth(request, new Headers());
     const { data: { session } } = await supabaseAuth.auth.getSession();
     
     if (!session) {

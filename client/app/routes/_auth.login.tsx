@@ -7,7 +7,8 @@ import { getSupabaseAuth } from "~/utils/db.server";
 export async function action({ request }: { request: Request }) {
     const formData = await request.formData();
     const provider = formData.get("provider");
-    const supabase = getSupabaseAuth(request);
+    const headers = new Headers();
+    const supabase = getSupabaseAuth(request, headers);
     try {
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: provider as Provider,
@@ -16,7 +17,7 @@ export async function action({ request }: { request: Request }) {
             },
         });
         if (error) throw error;
-        return redirect(data.url);
+        return redirect(data.url, { headers });
     } catch (error) {
         console.error(error);
         throw new Response("Failed to complete authentication", { status: 500 });
