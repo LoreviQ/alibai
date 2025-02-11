@@ -1,9 +1,10 @@
-import { type Provider, createClient } from "@supabase/supabase-js";
+import { type Provider } from "@supabase/supabase-js";
 import { Form } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
+import { useState } from "react";
 
 import { getSupabaseAuth } from "~/utils/db.server";
-import { GithubIcon } from "~/components/icons";
+import { type ProviderDetails, PROVIDERS } from "~/types/providers";
 
 export async function action({ request }: { request: Request }) {
     const formData = await request.formData();
@@ -26,18 +27,37 @@ export async function action({ request }: { request: Request }) {
 
 export default function Login() {
     return (
-        <div className="w-full max-w-md p-8 rounded-xl bg-theme-bg-card border border-theme-primary space-y-4">
-            <h3 className="text-2xl text-center font-semibold">Sign In</h3>
-            <Form method="post">
-                <input type="hidden" name="provider" value="github" />
-                <button
-                    type="submit"
-                    className="w-full px-6 py-3 bg-gray-800 hover:bg-gray-900 rounded-lg font-semibold transition-colors flex items-center justify-center gap-4"
-                >
-                    <GithubIcon />
-                    Login with GitHub
-                </button>
-            </Form>
+        <div className="w-full max-w-md py-8 px-16 rounded-xl bg-theme-bg-card border border-theme-secondary space-y-4">
+            <h3 className="text-4xl text-center font-semibold text-theme-secondary">Login</h3>
+            <div className="space-y-3">
+                {PROVIDERS.map((provider) => (
+                    <ProviderLoginButton key={provider.id} provider={provider} />
+                ))}
+            </div>
         </div>
+    );
+}
+
+interface ProviderLoginButtonProps {
+    provider: ProviderDetails;
+}
+
+function ProviderLoginButton({ provider }: ProviderLoginButtonProps) {
+    const [bgColor, setBgColor] = useState(provider.colour);
+
+    return (
+        <Form method="post">
+            <input type="hidden" name="provider" value={provider.id} />
+            <button
+                type="submit"
+                className="w-full px-4 py-3 rounded-full font-semibold transition-colors flex items-center justify-start gap-8"
+                style={{ backgroundColor: bgColor, color: provider.text }}
+                onMouseEnter={() => setBgColor(provider.hoverColour)}
+                onMouseLeave={() => setBgColor(provider.colour)}
+            >
+                {provider.icon && <provider.icon />}
+                <span>Continue with {provider.name}</span>
+            </button>
+        </Form>
     );
 }

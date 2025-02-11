@@ -1,18 +1,10 @@
 import { useOutletContext } from "@remix-run/react";
 import type { User } from "@supabase/supabase-js";
+import type { FC } from "react";
 
-import { GithubIcon } from "~/components/icons";
 import { ActionButton } from "~/components/buttons";
 import { HeadingBreak } from "~/components/cards";
-
-const PROVIDERS = [
-    { id: "discord", name: "Discord", icon: undefined }, // Add appropriate icon paths
-    { id: "facebook", name: "Facebook", icon: undefined },
-    { id: "github", name: "GitHub", icon: <GithubIcon /> },
-    { id: "google", name: "Google", icon: undefined },
-    { id: "twitch", name: "Twitch", icon: undefined },
-    { id: "twitter", name: "Twitter", icon: undefined },
-] as const;
+import { PROVIDERS } from "~/types/providers";
 
 export default function Settings() {
     const userData = useOutletContext<User>();
@@ -32,7 +24,7 @@ export default function Settings() {
                     <ProviderDetails
                         id={provider.id}
                         name={provider.name}
-                        icon={provider.icon}
+                        Icon={provider.icon}
                         connected={true}
                         key={provider.id}
                     />
@@ -44,7 +36,7 @@ export default function Settings() {
                     <ProviderDetails
                         id={provider.id}
                         name={provider.name}
-                        icon={provider.icon}
+                        Icon={provider.icon}
                         connected={false}
                         key={provider.id}
                     />
@@ -57,14 +49,14 @@ export default function Settings() {
 interface ProviderDetailsProps {
     id: string;
     name: string;
-    icon?: JSX.Element;
+    Icon?: FC<{ className?: string }>;
     connected: boolean;
 }
-function ProviderDetails({ id, name, icon, connected }: ProviderDetailsProps) {
+function ProviderDetails({ id, name, Icon, connected }: ProviderDetailsProps) {
     return (
         <div key={id} className="flex items-center justify-between py-2 px-4 bg-theme-surface-secondary rounded-lg">
             <div className="flex items-center space-x-3">
-                {icon}
+                {Icon && <Icon />}
                 <span className="font-medium">{name}</span>
             </div>
 
