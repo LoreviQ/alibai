@@ -11,14 +11,14 @@ import { getSupabaseAuth } from "~/utils/db.server";
 import { PreferencesProvider, usePreferences } from "~/contexts/preferences";
 
 export async function loader({ request }: { request: Request }) {
-    const supabaseAuth = getSupabaseAuth(request.headers);
+    const { supabase } = getSupabaseAuth(request);
     const {
         data: { session },
-    } = await supabaseAuth.auth.getSession();
+    } = await supabase.auth.getSession();
     if (!session) {
         throw redirect("/login");
     }
-    const userData = (await supabaseAuth.auth.getUser()).data.user;
+    const userData = (await supabase.auth.getUser()).data.user;
     const cookieHeader = request.headers.get("Cookie");
     const preferences = (await prefsCookie.parse(cookieHeader)) || DEFAULT_PREFS;
     return Response.json({ userData, preferences });

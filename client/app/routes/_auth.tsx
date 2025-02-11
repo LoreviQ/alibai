@@ -4,10 +4,10 @@ import { Outlet } from "@remix-run/react";
 import { getSupabaseAuth } from "~/utils/db.server";
 
 export async function loader({ request }: { request: Request }) {
-    const supabaseAuth = getSupabaseAuth(request.headers);
+    const { supabase } = getSupabaseAuth(request);
     const {
         data: { session },
-    } = await supabaseAuth.auth.getSession();
+    } = await supabase.auth.getSession();
     if (session) {
         throw redirect("/dashboard");
     }

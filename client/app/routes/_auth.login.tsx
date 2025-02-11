@@ -7,8 +7,7 @@ import { getSupabaseAuth } from "~/utils/db.server";
 export async function action({ request }: { request: Request }) {
     const formData = await request.formData();
     const provider = formData.get("provider");
-    const headers = new Headers();
-    const supabase = getSupabaseAuth(headers);
+    const { supabase, headers } = getSupabaseAuth(request);
     try {
         const { data, error } = await supabase.auth.signInWithOAuth({
             provider: provider as Provider,
