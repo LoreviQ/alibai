@@ -17,8 +17,8 @@ export function Sidebar({ isOpen = true }: SidebarProps) {
             icon: <BlockIcon />,
         },
         {
-            name: "Partners",
-            path: "/partners",
+            name: "Agent",
+            path: "/agent",
             icon: <BuildingIcon />,
         },
         {
