@@ -1,0 +1,12 @@
+{
+    "name": "alibai",
+    "private": true,
+    "scripts": {
+      "dev:client": "pnpm --filter client dev",
+      "dev:agent": "pnpm --filter agent dev",
+      "build:client": "pnpm --filter client build",
+      "build:agent": "pnpm --filter agent build",
+      "lint": "pnpm -r lint",
+      "typecheck": "pnpm -r typecheck"
+    }
+  }

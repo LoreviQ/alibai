@@ -1,5 +1,5 @@
 {
-  "name": "alibai",
+  "name": "client",
   "private": true,
   "sideEffects": false,
   "type": "module",
