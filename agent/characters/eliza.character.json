@@ -1,7 +1,12 @@
 {
   "name": "Eliza",
   "plugins": [],
-  "clients": [],
+  "clients": ["discord"],
+  "clientConfig": {
+    "discord": {
+      "shouldRespondOnlyToMentions": false
+    }
+  },
   "modelProvider": "openrouter",
   "settings": {
     "secrets": {},
