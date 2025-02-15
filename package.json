@@ -4,9 +4,16 @@
     "scripts": {
       "dev:client": "pnpm --filter client dev",
       "dev:agent": "pnpm --filter agent dev",
-      "build:client": "pnpm --filter client build",
+      "build:client": "pnpm --filter client build", 
       "build:agent": "pnpm --filter agent build",
+      "start:client": "pnpm --filter client start",
+      "start:agent": "pnpm --filter agent start",
       "lint": "pnpm -r lint",
       "typecheck": "pnpm -r typecheck"
+    },
+    "pnpm": {
+      "overrides": {
+        "onnxruntime-node": "1.20.0"
+      }
     }
   }
